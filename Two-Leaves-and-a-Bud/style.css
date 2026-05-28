@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "Reckless";
+  src: url("./fonts/RecklessCondensedS-TRIAL-Book.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/RobotoMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("./fonts/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+@import "tailwindcss";
+
+@theme {
+  --font-reckless: "Reckless", serif;
+  --font-roboto: "Roboto";
+  --font-figtree: "Figtree", serif;
+
+}
