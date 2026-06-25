@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <p>Task Manager</p>
+      <p id="Theme" >
+        <i
+          class="fa-solid fa-circle-half-stroke"
+          style="color: rgb(0, 0, 0)"
+        ></i
+        >Theme
+      </p>
+    </nav>
+    <main>
+      <div id="left"><button id="create-task">Create Task</button></div>
+      <div id="right">
+        <div class="notes">
+          <h3>Title</h3>
+          <p>Description</p>
+          <div class="button">
+            <div><button>Personal</button> <button>Pending</button></div>
+            <div><button>Edit</button> <button>Delete</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div class="form">
+      <form>
+        <h2>New Task</h2>
+        <button id = "closeForm" type="button">X</button>
+        <input type="text" placeholder="Enter Task Title" />
+        <input type="text" placeholder="Enter Task Description" />
+        <select name="category" id="category">
+          <option value="Personal">Personal</option>
+          <option value="Work" selected>Work</option>
+        </select>
+        <select name="status" id="status">
+          <option value="Pending">Pending</option>
+          <option value="Done">Done</option>
+        </select>
+        <button id="createTask" type="submit">Create Task</button>
+      </form>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
