@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productivity Dashboard</title>
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem("dashboard-theme") || "dark";
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        } catch (error) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="background-glow"></div>
+    <div class="app-container">
+      <div class="status-bar">
+        <div class="status-bar-brand">
+          <div class="pulse-dot"></div>
+          <div>
+            <h1>Productivity Dashboard</h1>
+            <span>Fun your day at one place</span>
+          </div>
+        </div>
+
+        <div class="status-bar-center">
+          <div class="status-block">
+            <div class="status-block-label" id="clock-day-label">Today</div>
+            <div class="status-block-value" id="clock-date">—</div>
+            <div class="status-block-sub" id="clock-time">—</div>
+          </div>
+          <div class="status-bar-divider"></div>
+          <div class="weather-chip" id="status-bar-weather-chip">
+            <span class="weather-chip-icon">⋯</span
+            ><span id="status-bar-weather-text">Locating…</span>
+          </div>
+        </div>
+
+        <div
+          class="theme-switch"
+          id="theme-switch"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle light and dark theme"
+        >
+          <span>Theme</span>
+          <div class="theme-switch-track">
+            <div class="theme-switch-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-grid" id="module-grid">
+        <button class="module-card" data-panel="todo">
+          <span class="module-tag">MOD.01</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="M9 11l3 3 8-8" />
+            <path
+              d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"
+            />
+          </svg>
+          <h3>Todo List</h3>
+          <p>Capture tasks, flag what matters, check them off.</p>
+          <div class="module-status" id="todo-module-status">— open —</div>
+        </button>
+
+        <button class="module-card" data-panel="planner">
+          <span class="module-tag">MOD.02</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <rect x="3" y="4" width="18" height="17" rx="2" />
+            <path d="M3 9h18M8 3v3M16 3v3" />
+          </svg>
+          <h3>Daily Planner</h3>
+          <p>Block your hours, slot by slot, start to finish.</p>
+          <div class="module-status" id="planner-module-status">— open —</div>
+        </button>
+
+        <button class="module-card" data-panel="quote">
+          <span class="module-tag">MOD.03</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path
+              d="M7 8h10M7 12h6M4 20l2.5-4H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H10.5L4 20z"
+            />
+          </svg>
+          <h3>Motivation</h3>
+          <p>A line worth pinning above your desk.</p>
+          <div class="module-status" id="quote-module-status">— open —</div>
+        </button>
+
+        <button class="module-card" data-panel="pomodoro">
+          <span class="module-tag">MOD.04</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="13" r="8" />
+            <path d="M12 9v4l3 2M9 2h6" />
+          </svg>
+          <h3>Pomodoro Timer</h3>
+          <p>25 on, 5 off. Repeat until the list is empty.</p>
+          <div class="module-status" id="pomodoro-module-status">
+            25:00 ready
+          </div>
+        </button>
+
+        <button class="module-card" data-panel="weather">
+          <span class="module-tag">MOD.05</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path
+              d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.4 2.1A4 4 0 0 0 6.5 19h11z"
+            />
+          </svg>
+          <h3>Weather</h3>
+          <p>Conditions outside, pulled in live.</p>
+          <div class="module-status" id="weather-module-status">
+            — checking —
+          </div>
+        </button>
+
+        <button class="module-card" data-panel="goals">
+          <span class="module-tag">MOD.06</span>
+          <div class="status-led"></div>
+          <svg
+            class="module-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <circle cx="12" cy="12" r="5" />
+            <circle cx="12" cy="12" r="1" />
+          </svg>
+          <h3>Daily Goals</h3>
+          <p>The short list. What actually has to happen today.</p>
+          <div class="module-status" id="goals-module-status">0 of 0 done</div>
+        </button>
+      </div>
+
+      <section class="feature-panel" id="panel-todo">
+        <div class="feature-panel-header">
+          <h2>Todo List</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div id="todo-input-row" class="form-row">
+          <input
+            type="text"
+            id="todo-text-input"
+            placeholder="Add a task and press Enter…"
+            maxlength="140"
+          />
+          <button class="button-primary" id="todo-add-button">Add Task</button>
+        </div>
+        <ul class="todo-list" id="todo-list"></ul>
+      </section>
+
+      <section class="feature-panel" id="panel-planner">
+        <div class="feature-panel-header">
+          <h2>Daily Planner</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div class="planner-hour-list" id="planner-hour-list"></div>
+      </section>
+
+      <section class="feature-panel" id="panel-quote">
+        <div class="feature-panel-header">
+          <h2>Motivation</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div class="quote-card">
+          <div class="quote-text" id="quote-text">
+            Loading a line worth reading…
+          </div>
+          <div class="quote-author" id="quote-author"></div>
+          <div class="quote-actions">
+            <button class="button-primary" id="quote-new-button">
+              New Quote
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-panel" id="panel-pomodoro">
+        <div class="feature-panel-header">
+          <h2>Pomodoro Timer</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div class="pomodoro-wrapper">
+          <div class="pomodoro-session-label">
+            <span class="pomodoro-session-dot" id="pomodoro-session-dot"></span
+            ><span id="pomodoro-session-name">Work Session</span>
+          </div>
+          <div class="pomodoro-time-display" id="pomodoro-time-display">
+            25:00
+          </div>
+          <div class="pomodoro-controls">
+            <button class="button-primary" id="pomodoro-start-button">
+              Start
+            </button>
+            <button
+              class="button-primary button-ghost"
+              id="pomodoro-pause-button"
+            >
+              Pause
+            </button>
+            <button
+              class="button-primary button-ghost"
+              id="pomodoro-reset-button"
+            >
+              Reset
+            </button>
+          </div>
+          <div class="status-message" id="pomodoro-status-message"></div>
+        </div>
+      </section>
+
+      <section class="feature-panel" id="panel-weather">
+        <div class="feature-panel-header">
+          <h2>Weather</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div class="weather-main">
+          <div class="weather-location" id="weather-location">Locating…</div>
+          <div class="weather-temperature" id="weather-temperature">--°</div>
+          <div class="weather-condition" id="weather-condition">
+            Fetching current conditions…
+          </div>
+        </div>
+        <div class="weather-stat-grid">
+          <div class="weather-stat-box">
+            <div class="stat-label">Feels like</div>
+            <div class="stat-value" id="weather-feels-like">--°</div>
+          </div>
+          <div class="weather-stat-box">
+            <div class="stat-label">Wind</div>
+            <div class="stat-value" id="weather-wind">-- km/h</div>
+          </div>
+          <div class="weather-stat-box">
+            <div class="stat-label">Humidity</div>
+            <div class="stat-value" id="weather-humidity">--%</div>
+          </div>
+          <div class="weather-stat-box">
+            <div class="stat-label">Updated</div>
+            <div class="stat-value" id="weather-updated-at">--:--</div>
+          </div>
+        </div>
+        <div class="status-message" id="weather-status-message"></div>
+        <div class="form-row" style="margin-top: 16px">
+          <button
+            class="button-primary button-ghost button-small"
+            id="weather-retry-button"
+          >
+            Retry
+          </button>
+        </div>
+      </section>
+
+      <section class="feature-panel" id="panel-goals">
+        <div class="feature-panel-header">
+          <h2>Daily Goals</h2>
+          <button class="back-to-deck-button" data-back>← Back to Deck</button>
+        </div>
+        <div class="goal-progress-section">
+          <div class="progress-bar-label" id="goal-progress-label">
+            0 of 0 completed
+          </div>
+          <div class="progress-bar-track">
+            <div
+              class="progress-bar-fill"
+              id="goal-progress-fill"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom: 16px">
+          <input
+            type="text"
+            id="goal-text-input"
+            placeholder="Add a goal for today and press Enter…"
+            maxlength="100"
+          />
+          <button class="button-primary" id="goal-add-button">Add Goal</button>
+        </div>
+        <ul class="goal-list" id="goal-list"></ul>
+      </section>
+    </div>
+<script src="./script.js"></script>
+    
+  </body>
+</html>
