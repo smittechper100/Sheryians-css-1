@@ -50,7 +50,7 @@ const renderUI = () => {
           <h3>${elem.title}</h3>
           <p>${elem.description}</p>
           <div class="button">
-            <div><button>${elem.categery}</button> <button>${elem.status}</button></div>
+            <div<button>${elem.categery}</button> <button>${elem.status}</button></div>
             <div><button onclick = "updateNote(${ind})">Edit</button> <button onclick="deleteNote(${ind})">Delete</button></div>
           </div>
         </div>`;
