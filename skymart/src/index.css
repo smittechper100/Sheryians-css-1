@@ -1,0 +1,51 @@
+/* -----------------------------------------------------------
+   1. Import a nice looking font (Poppins) from Google Fonts
+   2. Load Tailwind's base/components/utilities
+   3. A few tiny custom helper classes we re-use across pages
+   ----------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/* Disable the "at-rule-no-unknown" rule for stylelint/postcss processors
+  so tooling that doesn't understand Tailwind's @tailwind at-rules won't
+  report warnings. */
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* A reusable "primary button" style so we don't repeat
+   the same long list of Tailwind classes everywhere. */
+.btn-primary {
+  @apply bg-sky-blue hover:bg-sky-blue-dark text-sky-navy font-semibold
+         px-6 py-3 rounded-full transition-colors duration-200;
+}
+
+.btn-outline {
+  @apply border border-sky-blue text-sky-blue hover:bg-sky-blue hover:text-sky-navy
+         font-semibold px-6 py-3 rounded-full transition-colors duration-200;
+}
+
+/* Simple fade/slide-up animation used on cards */
+.fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
