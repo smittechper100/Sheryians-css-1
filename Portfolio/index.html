@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio · GSAP Mini Hackathon</title>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    /* ----- reset & base ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: #0b1a2a;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    /* ----- sections ----- */
+    section {
+      padding: 5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    section:last-child {
+      border-bottom: none;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 2.5rem;
+      display: inline-block;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    /* ----- header / hero ----- */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 0;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .hero-badge {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2563eb;
+      background: #dbeafe;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      width: fit-content;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #334155;
+      max-width: 540px;
+      margin: 0.5rem 0 1rem;
+      line-height: 1.6;
+    }
+    .hero-social {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .hero-social a {
+      color: #1e293b;
+      font-size: 1.6rem;
+      transition: 0.2s;
+    }
+    .hero-social a:hover {
+      color: #2563eb;
+      transform: translateY(-3px);
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      background: white;
+      color: #0b1a2a;
+      border: 1px solid #e2e8f0;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .btn-primary {
+      background: #0b1a2a;
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #2563eb;
+      transform: scale(1.02);
+    }
+    /* ----- cards grid (skills, projects) ----- */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: white;
+      padding: 1.8rem 1.5rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      border: 1px solid #edf2f7;
+      transition: 0.15s;
+    }
+    .card i {
+      font-size: 2.2rem;
+      color: #2563eb;
+      margin-bottom: 0.8rem;
+    }
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .card p {
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .skill-tag {
+      display: inline-block;
+      background: #eef2ff;
+      color: #1e293b;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin: 0.2rem 0.2rem 0 0;
+    }
+    .project-card .project-links {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.8rem;
+    }
+    .project-card .project-links a {
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .project-card .project-links a:hover {
+      text-decoration: underline;
+    }
+    /* ----- experience / education timeline style ----- */
+    .timeline-item {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #edf2f7;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+    .timeline-item h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .timeline-item .meta {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin: 0.25rem 0 0.5rem;
+    }
+    /* ----- contact & footer ----- */
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+    .contact-row a {
+      color: #1e293b;
+      font-size: 1.3rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem 1.4rem;
+      border-radius: 60px;
+      transition: 0.2s;
+    }
+    .contact-row a:hover {
+      background: #0b1a2a;
+      color: white;
+      border-color: #0b1a2a;
+    }
+    .footer-note {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 2rem;
+    }
+    /* ----- responsive ----- */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.8rem; }
+      .container { padding: 0 1.2rem; }
+      section { padding: 3rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content" id="heroContent">
+        <span class="hero-badge"><i class="fas fa-code" style="margin-right: 6px;"></i>that's the coder</span>
+        <h1>Hello, I'm <span>Smit patel</span></h1>
+        <p>Developer • designer •Passionate for learning JavaScript • creative coder</p>
+        <div class="hero-social">
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-x-twitter"></i></a>
+        </div>
+        <div class="btn-group">
+          <a href="#projects" class="btn btn-primary">View my work</a>
+          <a href="#contact" class="btn">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="card" style="max-width: 800px; background: white; padding: 2rem;">
+        <p style="font-size: 1.1rem; line-height: 1.7; color: #1e293b;">
+       "It works on my machine" — a JS developer's love story 💻✨. Turning coffee into console.log() and bugs into features. JS enthusiast, semicolon optional. ⚡Want me to tailor one to a specific platform (Instagram bio, LinkedIn tagline, GitHub profile, Twitter/X) or match a particular tone — funny, professional, or minimal?
+        </p>
+        <div style="margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Tailwind</span>
+          <span class="skill-tag">GSAP</span>
+          <span class="skill-tag">NODE</span>
+          <span class="skill-tag">TypeScript</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Skills & Tools</h2>
+      <div class="grid-2col" id="skillsGrid">
+    
+        <div class="card"><i class="fas fa-code"></i><h3>Frontend</h3><p>React, HTML5, CSS3, JavaScript, Tailwind, Bootstrap</p></div>
+        <div class="card"><i class="fas fa-magic"></i><h3>Animation</h3><p>GSAP (to, from, timeline, stagger, ScrollTrigger)</p></div>
+        <div class="card"><i class="fas fa-pencil-ruler"></i><h3>Design</h3><p>Figma, UI/UX principles, responsive design</p></div>
+        <div class="card"><i class="fas fa-tools"></i><h3>Tools</h3><p>Git, Vercel, Webpack, Chrome DevTools</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="grid-2col" id="projectsGrid">
+        <div class="card project-card">
+          <i class="fas fa-robot"></i>
+          <h3>AI Chat Interface</h3>
+          <p>Conversational UI with smooth micro-interactions built with React and GSAP.</p>
+          <div class="project-links"><a href="#"><i class="fab fa-github"></i> code</a><a href="#"><i class="fas fa-external-link-alt"></i> demo</a></div>
+        </div>
+        <div class="card project-card">
+          <i class="fas fa-leaf"></i>
+          <h3>Nature Explorer</h3>
+          <p>Scroll-triggered animations revealing landscapes. GSAP ScrollTrigger and stagger.</p>
+          <div class="project-links"><a href="#"><i class="fab fa-github"></i> code</a><a href="#"><i class="fas fa-external-link-alt"></i> demo</a></div>
+        </div>
+        <div class="card project-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Portfolio Dashboard</h3>
+          <p>Minimal dashboard with animated counters and timeline-based transitions.</p>
+          <div class="project-links"><a href="#"><i class="fab fa-github"></i> code</a><a href="#"><i class="fas fa-external-link-alt"></i> demo</a></div>
+        </div>
+        <div class="card project-card">
+          <i class="fas fa-music"></i>
+          <h3>Soundwave Studio</h3>
+          <p>Interactive audio visualizer with GSAP timelines synced to beats.</p>
+          <div class="project-links"><a href="#"><i class="fab fa-github"></i> code</a><a href="#"><i class="fas fa-external-link-alt"></i> demo</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE & EDUCATION -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title">Experience & Education</h2>
+      <div class="timeline-item">
+        <h3>Frontend Developer Intern</h3>
+        <div class="meta">Nexus Labs · 2025 – Present</div>
+        <p>Building interactive components, integrating GSAP animations, and optimising performance.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>B.S. in Computer Science</h3>
+        <div class="meta">University of Technology · 2022 – 2026</div>
+        <p>Relevant coursework: Web Dev, UI/UX, Algorithms, and Graphics.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Sheryians Coding School</h3>
+        <div class="meta">Full-stack & GSAP workshop · 2025</div>
+        <p>Hands-on projects, hackathons, and learning GSAP independently.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="container">
+      <h2 class="section-title">Achievements</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+        <div class="card" style="flex:1; min-width:180px;"><i class="fas fa-trophy"></i><h3>Hackathon Finalist</h3><p>2025 AI for Good</p></div>
+        <div class="card" style="flex:1; min-width:180px;"><i class="fas fa-award"></i><h3>GSAP Challenge</h3><p>Mini Hackathon Round 2</p></div>
+        <div class="card" style="flex:1; min-width:180px;"><i class="fas fa-certificate"></i><h3>React Certified</h3><p>Meta Frontend Specialization</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Let's connect</h2>
+      <div class="contact-row">
+        <a href="#"><i class="fab fa-github"></i> GitHub</a>
+        <a href="#"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+        <a href="#"><i class="fas fa-envelope"></i> Email</a>
+        <a href="#"><i class="fas fa-file-pdf"></i> Resume</a>
+      </div>
+      <p style="margin-top: 1.5rem; color: #475569;">Open to collaboration and new opportunities.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-note container">
+    <p>© 2026 Alex Rivera · built with GSAP & vanilla everything</p>
+    <p style="font-size: 0.8rem; margin-top: 0.3rem;">#MiniHackathon #GSAP #Portfolio</p>
+  </footer>
+
+  <!-- GSAP SCRIPTS -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ----- HERO ANIMATIONS (to, from, stagger) -----
+    const heroTL = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } });
+    heroTL
+      .from("#heroContent .hero-badge", { opacity: 0, y: -30, duration: 0.6 })
+      .from("#heroContent h1", { opacity: 0, y: 40, duration: 0.8 }, "-=0.3")
+      .from("#heroContent p", { opacity: 0, y: 20, duration: 0.7 }, "-=0.4")
+      .from("#heroContent .hero-social a", { opacity: 0, scale: 0.8, stagger: 0.15 }, "-=0.3")
+      .from("#heroContent .btn-group .btn", { opacity: 0, y: 20, stagger: 0.15 }, "-=0.4");
+
+    // ----- SKILLS CARD STAGGER (gsap.from + stagger) -----
+    gsap.from("#skillsGrid .card", {
+      scrollTrigger: {
+        trigger: "#skillsGrid",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      y: 60,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power2.out"
+    });
+
+    // ----- PROJECTS STAGGER (with fromTo) -----
+    gsap.fromTo("#projectsGrid .card", 
+      { opacity: 0, scale: 0.95, y: 40 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#projectsGrid",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+
+    // ----- TIMELINE ITEMS (from with rotation) -----
+    gsap.from(".timeline-item", {
+      scrollTrigger: {
+        trigger: "#experience",
+        start: "top 75%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      x: -40,
+      duration: 0.7,
+      stagger: 0.2,
+      ease: "power1.out"
+    });
+
+    // ----- ACHIEVEMENTS (from) -----
+    gsap.from("#achievements .card", {
+      scrollTrigger: {
+        trigger: "#achievements",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.7,
+      stagger: 0.2,
+      ease: "back.out(1.2)"
+    });
+
+    // ----- CONTACT ROW (simple from) -----
+    gsap.from(".contact-row a", {
+      scrollTrigger: {
+        trigger: ".contact-row",
+        start: "top 85%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      y: 20,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: "power2.out"
+    });
+
+    // ----- ADDITIONAL: subtle parallax for hero (bonus) -----
+    gsap.to("#heroContent h1", {
+      scrollTrigger: {
+        trigger: "#home",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1.5,
+        invalidateOnRefresh: true
+      },
+      y: -40,
+      opacity: 0.6,
+      ease: "none"
+    });
+
+    // ----- SCROLLTRIGGER REFRESH (safety) -----
+    ScrollTrigger.refresh();
+  </script>
+</body>
+</html>
